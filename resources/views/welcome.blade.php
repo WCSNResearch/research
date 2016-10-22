@@ -8,7 +8,7 @@
                     <div class="panel-heading">Welcome</div>
 
                     <div class="panel-body">
-                        Your Application's Landing Page.
+                        国家级科研基地调查情况
                     </div>
                 </div>
             </div>
