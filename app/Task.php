@@ -13,6 +13,7 @@ class Task extends Model
      * @var array
      */
     protected $fillable = ['name'];
+    
     /**
      * The attributes that should be cast to native types.
      *
@@ -21,7 +22,6 @@ class Task extends Model
     protected $casts = [
         'user_id' => 'int',
     ];
-
 
     /**
      * Get the user that owns the task.

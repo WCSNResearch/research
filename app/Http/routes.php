@@ -2,76 +2,50 @@
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Routes File
 |--------------------------------------------------------------------------
 |
-| Here is where you can register all of the routes for an application.
+| Here is where you will register all of the routes in an application.
 | It's a breeze. Simply tell Laravel the URIs it should respond to
 | and give it the controller to call when that URI is requested.
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-use App\Task;
-use APP\User;
-use Illuminate\Http\Request;
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| This route group applies the "web" middleware group to every route
+| it contains. The "web" middleware group is defined in your HTTP
+| kernel and includes session state, CSRF protection, and more.
+|
+*/
 
-/**
- * Display All Tasks
- */
+Route::group(['middleware' => ['web']], function () {
 
-/*Route::get('/', function () {
-    $tasks = Task::orderBy('created_at', 'asc')->get();
+    Route::get('/', function () {
+        return view('welcome');
 
-    return view('tasks', [
-        'tasks' => $tasks
-    ]);
-});*/
-/**
- * Add A New Task
- */
-/*Route::post('/task', function (Request $request) {
-    $validator = Validator::make($request->all(), [
-        'name' => 'required|max:255',
-    ]);
+    })->middleware('guest');
+    Route::get('/research/base', function (){
+        return view('research/base');
+    });
 
-    if ($validator->fails()) {
-        return redirect('/')
-            ->withInput()
-            ->withErrors($validator);
-    }
 
-    // Create The Task...
-        $task = new Task;
-        $task->name = $request->name;
-        $task->save();
+    Route::get('/tasks', 'TaskController@index');
+    Route::post('/task', 'TaskController@store');
+    Route::delete('/task/{task}', 'TaskController@destroy');
 
-        return redirect('/');
-});*/
+    Route::auth();
 
-/**
- * Delete An Existing Task
- */
-/*Route::delete('/task/{id}', function ($id) {
-    Task::findOrFail($id)->delete();
+    Route::get('/research/fund/index', 'FundController@index');
+    Route::get('/research/fund/current', 'FundController@current');
+    Route::post('/fund', 'FundController@store');
 
-    return redirect('/');
-});*/
-// Authentication Routes...
-Route::get('/', function () {
-    return view('welcome');
+    //Route::delete('/task/{task}', 'FundController@destroy');
+
+
 });
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-// Registration Routes...
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
-
-Route::get('/tasks', 'TaskController@index');
-Route::post('/task', 'TaskController@store');
-Route::delete('/task/{task}', 'TaskController@destroy');
 
